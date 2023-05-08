@@ -1,0 +1,44 @@
+{
+  "menu": [
+    {
+      "name": "Dashboards",
+      "icon": "home",
+      "slug": "",
+      "submenu": [
+        {
+          "url": "/",
+          "name": "eCommerce",
+          "icon": "circle",
+          "slug": "dashboard-ecommerce"
+        }
+      ]
+    },
+
+    {
+      "navheader": "Apps & Pages",
+      "slug": ""
+    },
+    {
+      "url": "applications/list",
+      "name": "Email",
+      "icon": "user-check",
+      "slug": "ApplicationsList"
+    },
+    {
+      "url": "applications/form-list",
+      "name": "Chat",
+      "icon": "list",
+      "slug": "FormsList"
+    },
+    {
+      "navheader": "Charts & Maps",
+      "slug": ""
+    },
+    {
+      "url": "admin/list",
+      "name": "Leaflet Maps",
+      "icon": "settings",
+      "slug": "AdminList"
+    }
+  ]
+}
