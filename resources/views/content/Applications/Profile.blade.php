@@ -20,8 +20,8 @@
         <div class="col-12">
             <div class="card profile-header mb-2">
                 <!-- profile cover photo -->
-                <img class="card-img-top" src="{{asset('images/profile/user-uploads/kctek.png')}}"
-                    alt="User Profile Image" />
+                <img class="card-img" src="{{asset('images/profile/user-uploads/kctek.png')}}" alt="User Profile Image"
+                    height="250px" style="filter: brightness(40%);" />
                 <!--/ profile cover photo -->
 
                 <div class="position-relative">
@@ -33,8 +33,9 @@
                         </div>
                         <!-- profile title -->
                         <div class="profile-title ms-3">
-                            <h2 class="text-dark">{{$inspectapplicant->name}}</h2>
-                            <p class="text-dark">{{$inspectapplicant->created_at}}</p>
+                            <h2 class="text-light">{{$inspectapplicant->name}}</h2>
+                            <p class="text-light"><b>Başvuru Tarihi:
+                                    {{$inspectapplicant->created_at->format('d.m.Y H:i')}}</b></p>
                         </div>
                     </div>
                 </div>
@@ -130,7 +131,8 @@
                                 <!-- user suggestions -->
                                 <label class="form-label" for="select2-basic">Yorum Kategorisi Seçiniz</label>
                                 <div class="d-flex justify-content-start align-items-center mb-1">
-                                    <select class="select2 form-select" id="select2-basic" name="comment_category">
+                                    <select class="select2 form-select" id="select2-basic" name="comment_category"
+                                        required>
                                         <option value="1">Olumlu</option>
                                         <option value="2">Olumsuz</option>
                                     </select>
@@ -140,8 +142,8 @@
                                 <div class="mb-1">
                                     <fieldset class="mb-75">
                                         <label class="form-label" for="label-textarea">Yorum</label>
-                                        <textarea class="form-control" id="label-textarea" rows="3"
-                                            placeholder="Yorum Yaz" name="comment"></textarea>
+                                        <textarea required class="form-control" id="label-textarea" rows="3"
+                                            placeholder="Yorum Yaz" name="comment" maxlength="300"></textarea>
                                         <input type="hidden" name="author" value="{{ Auth::user()->name }}">
                                     </fieldset>
                                 </div>
@@ -167,7 +169,7 @@
                                         <div class="card-body">
 
                                             <div class="profile-user-info">
-                                                <h6 class="mb-0">Murat Ertunç</h6>
+                                                <h6 class="mb-0">{{$comment->author}}</h6>
                                                 <small class="text-muted">{{$comment->created_at->format('d.m.Y H:i')}}
                                                 </small>
                                                 <span
@@ -258,151 +260,161 @@
                 </div>
                 @endif
 
-                @php $counter = 0 @endphp
-                @foreach ($questions as $data)
-                @php $counter++ @endphp
-
-                @if ($data->category==7)
+                @php
+                $counter = 0;
+                $total_questions = count($questions);
+                @endphp
                 <div class="card">
-                    <div class="card-body profile-suggestion">
+                    @foreach ($questions as $data)
+                    @php $counter++ @endphp
+
+                    @if ($data->category==7)
+                    <div class="card-body profile-suggestion @if ($counter > $total_questions) pb-2 @endif">
                         <h5 class="mb-2"> <b>{{ $counter}}- </b>{{$data->question}}</h5>
-                        <div class="mb-3 row">
+                        <div class="row">
                             <div class="col-md-12">
                                 @if ($data->answer)
-                                    <input class="form-control" readonly
-                                        value="{{ $data->answer->answer }}"
-                                        id="html5-text-input">
+                                <input class="form-control" readonly value="{{ $data->answer->answer }}"
+                                    id="html5-text-input">
                                 @else
-                                    <p>Bu soruya cevap verilmemiştir</p>
+                                <p>Bu soruya cevap verilmemiştir</p>
                                 @endif
                             </div>
                         </div>
                     </div>
-                </div>
-                @endif
+                    @if ($counter < $total_questions) <hr>
+                        @endif
+                        @endif
 
-                @if ($data->category==3)
-                <div class="card">
-                    <div class="card-body profile-suggestion">
-                        <h5 class="mb-2"> <b>{{ $counter}}- </b>{{$data->question}}</h5>
-                        <div class="mb-3 row">
-                            <div class="col-md-12">
-                                @if ($data->answer)
-                                    <input class="form-control" readonly
-                                        value="{{ $data->answer->answer }}"
-                                        id="html5-text-input">
-                                @else
-                                    <p>Bu soruya cevap verilmemiştir</p>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endif
-
-                @if ($data->category==2)
-                <div class="card">
-                    <div class="card-body profile-suggestion">
-                        <h5 class="mb-2"> <b>{{ $counter}}- </b>{{$data->question}}</h5>
-                        <div class="mb-3 row">
-                            <div class="col-md-12">
-                                @if ($data->answer)
-                                    <input class="form-control" readonly
-                                        value="{{ $data->answer->answer }}"
-                                        id="html5-text-input">
-                                @else
-                                    <p>Bu soruya cevap verilmemiştir</p>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endif
-
-                @if ($data->category==1)
-                <div class="card">
-                    <div class="card-body profile-suggestion">
-                        <h5 class="mb-2"> <b>{{ $counter}}- </b>{{$data->question}}</h5>
-                        <div class="mb-3 row">
-                            <div class="col-md-12">
-                                @if ($data->answer)
-                                    <input class="form-control" readonly
-                                        value="{{ $data->answer->answer }}"
-                                        id="html5-text-input">
-                                @else
-                                    <p>Bu soruya cevap verilmemiştir</p>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endif
-
-                @if ($data->category==4)
-                <div class="card">
-                    <div class="card-body profile-suggestion">
-                        <h5 class="mb-2"> <b>{{ $counter}}- </b>{{$data->question}}</h5>
-                        <div class="mb-3 row">
-                            <div class="col-md-12">
-                                @if ($data->answer)
-                                    <input class="form-control" readonly
-                                        value="{{ $data->answer->answer }}"
-                                        id="html5-text-input">
-                                @else
-                                    <p>Bu soruya cevap verilmemiştir</p>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endif
-
-
-                @if ($data->category==5)
-                <div class="card">
-                    <div class="card-body profile-suggestion">
-                        <h5 class="mb-2"> <b>{{ $counter}}- </b>{{$data->question}}</h5>
-                        <div class="mb-3 row">
-                            <div class="col-md-12">
-                                @if ($data->answer)
-                                    <input class="form-control" readonly
-                                        value="{{ $data->answer->answer }}"
-                                        id="html5-text-input">
-                                @else
-                                    <p>Bu soruya cevap verilmemiştir</p>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endif
-
-                @if ($data->category==8)
-                <div class="card">
-                    <div class="card-body profile-suggestion">
-                        <h5 class="mb-2"> <b>{{ $counter}}- </b>{{$data->question}}</h5>
-                        <div class="mb-3 row">
-                            <div class="col-md-12 row">
-                                <div class="input-group">
+                        @if ($data->category==3)
+                        <div class="card-body profile-suggestion @if ($counter > $total_questions) pb-2 @endif">
+                            <h5 class="mb-2"> <b>{{ $counter}}- </b>{{$data->question}}</h5>
+                            <div class="row">
+                                <div class="col-md-12">
                                     @if ($data->answer)
-                                        <a href="{{route('downloadCV', $data->answer->id)}}"
-                                            class="btn btn-outline-primary waves-effect"
-                                            type="button" id="button-addon1">İndir</a>
-                                        <input type="text" class="form-control" readonly
-                                            value="{{ $data->answer->answer}}">
+                                    <input class="form-control" readonly value="{{ $data->answer->answer }}"
+                                        id="html5-text-input">
                                     @else
-                                        <a href="#" class="btn btn-outline-primary waves-effect disabled"
-                                            type="button" id="button-addon1">İndir</a>
-                                        <input type="text" class="form-control" readonly
-                                            value="Bu soruya cevap verilmemiştir">
+                                    <p>Bu soruya cevap verilmemiştir</p>
                                     @endif
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        @if ($counter < $total_questions) <hr>
+                            @endif
+                            @endif
+
+                            @if ($data->category==2)
+                            <div class="card-body profile-suggestion @if ($counter > $total_questions) pb-2 @endif">
+                                <h5 class="mb-2"> <b>{{ $counter}}- </b>{{$data->question}}</h5>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        @if ($data->answer)
+                                        <input class="form-control" readonly value="{{ $data->answer->answer }}"
+                                            id="html5-text-input">
+                                        @else
+                                        <p>Bu soruya cevap verilmemiştir</p>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                            @if ($counter < $total_questions) <hr>
+                                @endif
+                                @endif
+
+                                @if ($data->category==1)
+                                <div class="card-body profile-suggestion @if ($counter > $total_questions) pb-2 @endif">
+                                    <h5 class="mb-2"> <b>{{ $counter}}- </b>{{$data->question}}</h5>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            @if ($data->answer)
+                                            <input class="form-control" readonly value="{{ $data->answer->answer }}"
+                                                id="html5-text-input">
+                                            @else
+                                            <p>Bu soruya cevap verilmemiştir</p>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                @if ($counter < $total_questions) <hr>
+                                    @endif
+                                    @endif
+
+                                    @if ($data->category==4)
+                                    <div
+                                        class="card-body profile-suggestion @if ($counter > $total_questions) pb-2 @endif">
+                                        <h5 class="mb-2"> <b>{{ $counter}}- </b>{{$data->question}}</h5>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                @if ($data->answer)
+                                                <input class="form-control" readonly value="{{ $data->answer->answer }}"
+                                                    id="html5-text-input">
+                                                @else
+                                                <h5> <b>Bu soruya cevap verilmemiştir</b> </h5>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @if ($counter < $total_questions) <hr>
+                                        @endif
+                                        @endif
+
+
+                                        @if ($data->category==5)
+                                        <div
+                                            class="card-body profile-suggestion @if ($counter > $total_questions) pb-2 @endif">
+                                            <h5 class="mb-2"> <b>{{ $counter}}- </b>{{$data->question}}</h5>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    @if ($data->answer)
+                                                    <input class="form-control" readonly
+                                                        value="{{ $data->answer->answer }}" id="html5-text-input">
+                                                    @else
+                                                    <p>Bu soruya cevap verilmemiştir</p>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @if ($counter < $total_questions) <hr> @endif
+                                            @endif
+
+                                            @if ($data->category==8)
+                                            <div
+                                                class="card-body profile-suggestion @if ($counter > $total_questions) pb-2 @endif">
+                                                <h5 class="mb-2"> <b>{{ $counter}}- </b>{{$data->question}}</h5>
+                                                <div class="row">
+                                                    <div class="col-md-12 row">
+                                                        <div class="input-group">
+                                                            @if ($data->answer)
+
+                                                            <a href="{{route('inspectFile', $data->answer->id)}}"
+                                                                class="btn btn-outline-primary waves-effect"
+                                                                type="button" id="button-addon1">Dosyayı İncele</a>
+
+                                                            <a href="{{route('downloadfile', $data->answer->id)}}"
+                                                                class="btn btn-outline-primary waves-effect"
+                                                                type="button" id="button-addon1">İndir</a>
+
+                                                            <input type="text" class="form-control" readonly
+                                                                value="{{ $data->answer->answer}}">
+                                                            @else
+                                                            <a href="#"
+                                                                class="btn btn-outline-primary waves-effect disabled"
+                                                                type="button" id="button-addon1">Dosyayı İncele</a>
+                                                            <a href="#"
+                                                                class="btn btn-outline-primary waves-effect disabled"
+                                                                type="button" id="button-addon1">İndir</a>
+                                                            <input type="text" class="form-control" readonly
+                                                                value="Bu soruya cevap verilmemiştir">
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @if ($counter < $total_questions) <hr>@endif
+                                                @endif
+                                                @endforeach
                 </div>
-            @endif
-            @endforeach
 
 
                 <div class="card">
@@ -414,7 +426,7 @@
                                 <!-- user suggestions -->
                                 <label class="form-label" for="select2-basic">Durum Kategorisi Seçiniz</label>
                                 <div class="d-flex justify-content-start align-items-center mb-1">
-                                    <select class="select2 form-select" id="select2-basic" name="status">
+                                    <select class="select2 form-select" id="select2-basic" name="status" required>
                                         <option value="1">Yeni Başvuru</option>
                                         <option value="2">Telefon Görüşmesi</option>
                                         <option value="3">E-Posta</option>
@@ -429,8 +441,9 @@
                                 <div class="mb-1">
                                     <fieldset class="mb-75">
                                         <label class="form-label" for="label-textarea">Durum</label>
-                                        <textarea class="form-control" id="label-textarea" rows="3"
-                                            placeholder="Durum Açıklaması Yaz" name="status_exp"></textarea>
+                                        <textarea required class="form-control" id="label-textarea" rows="3"
+                                            placeholder="Durum Açıklaması Yaz" name="status_exp"
+                                            maxlength="600"></textarea>
                                         <input type="hidden" name="author" value="{{ Auth::user()->name }}">
                                     </fieldset>
                                 </div>
@@ -441,73 +454,73 @@
                                 </div>
 
                             </div>
-                        </div>
-                    </form>
-                </div>
 
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-start align-items-center mb-1">
-                            <div class="profile-user-info">
-                                <h6 class="mb-0">Durum</h6>
-                            </div>
-                        </div>
-                        <div class="row" id="table-head">
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="table-responsive">
-                                        <table class="table">
-                                            <thead class="table-light">
-                                                <tr>
-                                                    <th width="10%">Durum</th>
-                                                    <th width="15%" class="text-center">Detay</th>
-                                                    <th>Açıklama</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach($inspectapplicant["comments"] as $status)
-                                                @if(empty($status->status_exp))
-                                                @continue
-                                                @endif
-                                                <tr>
-                                                    <td>
-                                                        <span class="badge rounded-pill bg-primary bg-glow">
-                                                            @if ($status->status==1)
-                                                            İlk Başvuru
-                                                            @elseif ($status->status==2)
-                                                            Telefon Görüşmesi
-                                                            @elseif ($status->status==3)
-                                                            E-posta
-                                                            @elseif ($status->status==4)
-                                                            Zoom Toplantısı
-                                                            @elseif ($status->status==5)
-                                                            Mülakat
-                                                            @elseif ($status->status==6)
-                                                            Olumlu
-                                                            @elseif ($status->status==7)
-                                                            Olumsuz
-                                                            @else
-                                                            Hata
-                                                            @endif
-                                                        </span>
-                                                    </td>
-                                                    <td class=" text-center">
-                                                        <span class="badge rounded-pill bg-primary bg-glow">
-                                                            Murat Ertunç <br>
-                                                            {{$status->created_at->format('d.m.Y H:i')}}
-                                                        </span>
-                                                    </td>
-                                                    <td>{{ $status->status_exp }}</td>
-                                                </tr>
-                                                @endforeach
+                            <div class="card-body pt-0">
+                                <div class="d-flex justify-content-start align-items-center mb-1">
+                                    <div class="profile-user-info">
+                                        <h6 class="mb-0">Durum</h6>
+                                    </div>
+                                </div>
+                                <div class="row" id="table-head">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead class="table-light">
+                                                        <tr>
+                                                            <th width="10%" class="text-center">Durum</th>
+                                                            <th width="15%" class="text-center">Detay</th>
+                                                            <th>Açıklama</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach($inspectapplicant["comments"] as $status)
+                                                        @if(empty($status->status_exp))
+                                                        @continue
+                                                        @endif
+                                                        <tr>
+                                                            <td class="text-center">
+                                                                <span class="badge rounded-pill bg-primary bg-glow">
+                                                                    @if ($status->status==1)
+                                                                    İlk Başvuru
+                                                                    @elseif ($status->status==2)
+                                                                    Telefon Görüşmesi
+                                                                    @elseif ($status->status==3)
+                                                                    E-posta
+                                                                    @elseif ($status->status==4)
+                                                                    Zoom Toplantısı
+                                                                    @elseif ($status->status==5)
+                                                                    Mülakat
+                                                                    @elseif ($status->status==6)
+                                                                    Olumlu
+                                                                    @elseif ($status->status==7)
+                                                                    Olumsuz
+                                                                    @else
+                                                                    Hata
+                                                                    @endif
+                                                                </span>
+                                                            </td>
+                                                            <td class=" text-center">
+                                                                <span class="badge rounded-pill text-dark bg-glow">
+                                                                    {{$comment->author}} <br>
+                                                                    {{$status->created_at->format('d.m.Y H:i')}}
+                                                                </span>
+                                                            </td>
+                                                            <td>{{ $status->status_exp }}</td>
+                                                        </tr>
+                                                        @endforeach
 
-                                            </tbody>
-                                        </table>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
-                    </div>
+
+                    </form>
                 </div>
             </div>
         </div>

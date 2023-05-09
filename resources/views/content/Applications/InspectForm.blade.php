@@ -170,6 +170,7 @@ $categoryName = $form->category_name;
                                         <option value="3">Metin Alanı Uzun Cevap</option>
                                         <option value="2">İnput (Sayı)</option>
                                         <option value="5">İnput (Tarih)</option>
+                                        <option value="8">İnput (Dosya)</option>
                                         <option value="4">Doğru <b>-</b> Yanlış</option>
                                         <option value="6">Varsayılan Şıklı Soru</option>
                                         <option value="7">Şıklı Soru</option>
@@ -258,7 +259,7 @@ $categoryName = $form->category_name;
 
     <div class="card col-12 p-2">
         <div class="card-header pt-0">
-            <h4 class="card-title">{{$form->category_name}} Soruları</h4>
+            <h4 class="card-title">{{$form->category_name}} Başvuruları</h4>
         </div>
         <div class="table-responsive">
             <table class="table" id="applications">
@@ -284,9 +285,19 @@ $categoryName = $form->category_name;
                         <td> <span
                                 class="badge badge-glow bg-primary">{{$applicatedata->created_at->format('H:i - d.m.Y')}}</span>
                         </td>
-                        <td> <span
-                                class="badge badge-glow bg-primary">{{$applicatedata->created_at->format('H:i - d.m.Y')}}</span>
+
+                        <td>
+                            @if ($applicatedata->applications)
+                                <span class="badge badge-glow bg-primary">{{ $applicatedata->applications->last()->created_at }}</span>
+                            @else
+                            <span class="badge badge-glow bg-danger">Henüz İşlem Yok</span>
+                            @endif
                         </td>
+
+                        {{-- <td>
+                             <span
+                                class="badge badge-glow bg-primary">{{$applicatedata->applications->last()->created_at}}</span>
+                        </td> --}}
                         @php
                         $status = $applicatedata["comments"]->last() != null ?
                         $applicatedata["comments"]->last()->status : ''
@@ -347,12 +358,14 @@ $categoryName = $form->category_name;
             input1.className = 'form-control my-1';
             input1.placeholder = 'Metin Alanı Kısa Cevap';
             input1.name = 'question';
+            input1.required = true;
 
             var orderIput = document.createElement('input');
             orderIput.className = 'form-control my-1'
             orderIput.placeholder = 'Soru Sıra No'
             orderIput.type = 'number'
             orderIput.name = 'order'
+            orderIput.required = true;
 
             formQuestionDataInput.value = selectedValue;
 
@@ -369,12 +382,14 @@ $categoryName = $form->category_name;
             input1.className = 'form-control my-1';
             input1.placeholder = 'İnput (Sayı)';
             input1.name = 'question';
+            input1.required = true;
 
             var orderIput = document.createElement('input');
             orderIput.className = 'form-control my-1'
             orderIput.placeholder = 'Soru Sıra No'
             orderIput.type = 'number'
             orderIput.name = 'order'
+            orderIput.required = true;
 
             formQuestionDataInput.value = selectedValue;
 
@@ -391,12 +406,14 @@ $categoryName = $form->category_name;
             input1.className = 'form-control my-1';
             input1.placeholder = 'Metin Alanı Uzun Cevap';
             input1.name = 'question';
+            input1.required = true;
 
             var orderIput = document.createElement('input');
             orderIput.className = 'form-control my-1'
             orderIput.placeholder = 'Soru Sıra No'
             orderIput.type = 'number'
             orderIput.name = 'order'
+            orderIput.required = true;
 
             formQuestionDataInput.value = selectedValue;
 
@@ -413,12 +430,14 @@ $categoryName = $form->category_name;
             input1.className = 'form-control my-1';
             input1.placeholder = 'Doğru - Yanlış';
             input1.name = 'question';
+            input1.required = true;
 
             var orderIput = document.createElement('input');
             orderIput.className = 'form-control my-1'
             orderIput.placeholder = 'Soru Sıra No'
             orderIput.type = 'number'
             orderIput.name = 'order'
+            orderIput.required = true;
 
             formQuestionDataInput.value = selectedValue;
 
@@ -436,12 +455,14 @@ $categoryName = $form->category_name;
             input1.className = 'form-control my-1';
             input1.placeholder = 'Tarih Seçenekli Soru';
             input1.name = 'question';
+            input1.required = true;
 
             var orderIput = document.createElement('input');
             orderIput.className = 'form-control my-1'
             orderIput.placeholder = 'Soru Sıra No'
             orderIput.type = 'number'
             orderIput.name = 'order'
+            orderIput.required = true;
 
             formQuestionDataInput.value = selectedValue;
 
@@ -457,6 +478,7 @@ $categoryName = $form->category_name;
             var input1 = document.createElement('textarea');
             input1.className = 'form-control my-1';
             input1.placeholder = 'Varsayılan Seçenekli Soru';
+            input1.required = true;
 
             formQuestionDataInput.value = selectedValue;
 
@@ -472,12 +494,14 @@ $categoryName = $form->category_name;
             input1.className = 'form-control my-1';
             input1.placeholder = 'Şıklı Soru';
             input1.name = 'question';
+            input1.required = true;
 
             var orderIput = document.createElement('input');
             orderIput.className = 'form-control my-1'
             orderIput.placeholder = 'Soru Sıra No'
             orderIput.type = 'number'
             orderIput.name = 'order'
+            orderIput.required = true;
 
             formQuestionDataInput.value = selectedValue;
 
@@ -494,6 +518,7 @@ $categoryName = $form->category_name;
                 newInput.type = 'text';
                 newInput.className = 'form-control my-1';
                 newInput.name = 'choices[]';
+                newInput.required = true;
                 newInput.placeholder = (choiceInputs.length + 1) + '. Seçenek';
                 newInput.id = 'choice-' + choiceInputs.length;
                 parentDiv.insertBefore(newInput, choiceAddButton);
@@ -506,6 +531,30 @@ $categoryName = $form->category_name;
             parentDiv.insertBefore(input1, select);
             parentDiv.insertBefore(orderIput, select);
             parentDiv.insertBefore(choiceAddButton, select);
+
+            select.style.display = 'none';
+        }
+
+        if (selectedValue == '8') {
+            var maindiv = document.getElementById('soru-input');
+
+            var input1 = document.createElement('textarea');
+            input1.className = 'form-control my-1';
+            input1.placeholder = 'Metin Alanı Kısa Cevap';
+            input1.name = 'question';
+            input1.required = true;
+
+            var orderIput = document.createElement('input');
+            orderIput.className = 'form-control my-1'
+            orderIput.placeholder = 'Soru Sıra No'
+            orderIput.type = 'number'
+            orderIput.name = 'order'
+            orderIput.required = true;
+
+            formQuestionDataInput.value = selectedValue;
+
+            parentDiv.insertBefore(input1, select);
+            parentDiv.insertBefore(orderIput, select);
 
             select.style.display = 'none';
         }

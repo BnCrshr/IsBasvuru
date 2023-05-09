@@ -204,7 +204,7 @@
                         <div class="mb-3 mt-4">
                             <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
                                 name="question[{{$question->question}}]" placeholder="Yanıtınızı girin"
-                                placeholder="Yanıtınızı girin" @if($question->required_status === 1) required @endif>
+                                placeholder="Yanıtınızı girin" @if($question->required_status === 1) required @endif maxlength="300">
                         </div>
                     </div>
                 </div>
@@ -223,7 +223,7 @@
                             <input type="number" class="form-control" id="exampleInputEmail1"
                                 aria-describedby="emailHelp" name="question[{{$question->question}}]"
                                 placeholder="Yanıtınızı girin" placeholder="Yanıtınızı girin"
-                                @if($question->required_status === 1) required @endif>
+                                @if($question->required_status === 1) required @endif  maxlength="300">
                         </div>
                     </div>
                 </div>
@@ -242,7 +242,7 @@
                         <div class="mb-3 mt-4">
                             <textarea class="form-control no-resize" id="explanation" rows="3"
                                 placeholder="Yanıtınızı girin" name="question[{{$question->question}}]"
-                                @if($question->required_status === 1) required @endif></textarea>
+                                @if($question->required_status === 1) required @endif maxlength="600"></textarea>
                         </div>
                     </div>
                 </div>

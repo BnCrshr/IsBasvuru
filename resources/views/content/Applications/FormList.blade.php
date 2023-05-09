@@ -30,6 +30,7 @@
                             <th class="text-center">Soru Sayısı</th>
                             <th class="text-center">Başvuru Sayısı</th>
                             <th class="text-center">Oluşturma Tarihi</th>
+                            <th class="text-center">Sonuncu Başvuru Tarihi</th>
                             <th class="text-center">Detaylar</th>
                         </tr>
                     </thead>
@@ -50,8 +51,15 @@
                             <td class="text-center"><span
                                     class="badge rounded-pill badge-light-success me-1">{{$data->applications_count}}</span>
                             </td>
+                            <td class="text-center">
+                                @if($data->applications->isNotEmpty())
+                                    <span class="badge rounded-pill badge-light-success me-1">{{$data->applications->last()->created_at}}</span>
+                                @else
+                                    <span class="badge rounded-pill badge-light-danger me-1">Henüz Başvuru Yok</span>
+                                @endif
+                            </td>
                             <td class="text-center"><span
-                                    class="badge rounded-pill badge-light-warning me-1">{{$data->created_at}}</span>
+                                    class="badge rounded-pill badge-light-warning me-1">{{$data->created_at->format('d.m.Y H:i')}}</span>
                             </td>
                             <td class="text-center"><a href="{{route('InspectApplicationForm', $data->id)}}"
                                     class="btn btn-outline-primary"> <i data-feather='list'></i> </a></td>

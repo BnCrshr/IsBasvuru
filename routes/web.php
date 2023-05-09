@@ -38,7 +38,8 @@ Route::middleware('auth')->group(function(){
         Route::get('inspect-form/{id}', [ApplicateController::class, 'InspectForm'])->name('InspectApplicationForm');
 
 
-        Route::get('download-cv/{id}', [ApplicateController::class, 'downloadCV'])->name('downloadCV');
+        Route::get('download-file/{id}', [ApplicateController::class, 'downloadfile'])->name('downloadfile');
+        Route::get('isnpect-file/{id}', [ApplicateController::class, 'inspectFile'])->name('inspectFile');
 
 
         Route::post('save/list', [ApplicateController::class, 'SaveForm'])->name('SaveForm');

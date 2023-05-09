@@ -686,9 +686,6 @@
 
 
                 input1.remove();
-                checkbox.remove();
-                reqtext.remove();
-                reqDiv.remove();
 
                 select.selectedIndex = -1;
                 select.style.display = 'inline-block';
@@ -729,6 +726,7 @@
                 newInput.type = 'text';
                 newInput.className = 'form-control my-1';
                 newInput.name = 'choices[]';
+                newInput.required = true;
                 newInput.id = 'choice-' + choiceInputs.length;
                 parentDiv.insertBefore(newInput, choiceAddButton);
 

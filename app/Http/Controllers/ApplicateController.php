@@ -60,7 +60,7 @@ class ApplicateController extends Controller
         ]);
     }
 
-    public function downloadCV($id)
+    public function downloadfile($id)
     {
         $inspectapplicant = Answers::findOrFail($id);
         $cvName = $inspectapplicant->answer;
@@ -70,15 +70,45 @@ class ApplicateController extends Controller
     }
 
 
+    public function inspectFile($id)
+    {
+        $inspectapplicant = Answers::findOrFail($id);
+        $filename = $inspectapplicant->answer;
+        $path = storage_path('app/public' . $filename);
+
+        $extension = pathinfo($path, PATHINFO_EXTENSION);
+
+        $headers = [
+            'Content-Type' => $this->getContentType($extension),
+            'Content-Disposition' => 'inline; filename="'.$filename.'"',
+        ];
+
+        return response()->file($path, $headers);
+    }
+
+
+    private function getContentType($extension)
+    {
+        $mimeTypes = [
+            'pdf' => 'application/pdf',
+            'jpeg' => 'image/jpeg',
+            'jpg' => 'image/jpeg',
+            'png' => 'image/png',
+            'mp4' => 'video/mp4',
+        ];
+
+        return $mimeTypes[$extension] ?? 'application/octet-stream';
+    }
+
+
     public function FormsList()
     {
         $forms = JobPosts::orderBy('id','asc')->withCount('questions', 'applications')->with('applications')->get();
-        $date = JobPosts::with('applications')->latest()->get();
 
         $breadcrumbs = [
             ['link' => "/", 'name' => "Ana Sayfa"], ['name' => "Formlar"]
         ];
-        return view('/content/Applications/FormList', compact('forms', 'date' ), [
+        return view('/content/Applications/FormList', compact('forms'), [
             'breadcrumbs' => $breadcrumbs
         ]);
     }
